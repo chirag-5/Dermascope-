@@ -1,0 +1,6 @@
+# Repo contains only backend/, frontend/, and admin/
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
