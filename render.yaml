@@ -1,0 +1,61 @@
+# Render Blueprint — deploy all 3 parts from one repo
+# Dashboard: New → Blueprint → connect GitHub repo → paste or auto-detect this file
+#
+# After first deploy, set secret env vars in the Render dashboard:
+#   MONGODB_URI, JWT_SECRET, ANTHROPIC_API_KEY, GOOGLE_CLIENT_ID, VITE_GOOGLE_CLIENT_ID
+# Then update URLs once you know your Render hostnames:
+#   FRONTEND_URL, ADMIN_URL, VITE_API_URL, VITE_ADMIN_URL, VITE_FRONTEND_URL
+
+services:
+  - type: web
+    name: dermascope-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: ADMIN_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-20250514
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+
+  - type: web
+    name: dermascope-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false
+      - key: VITE_ADMIN_URL
+        sync: false
+
+  - type: web
+    name: dermascope-admin
+    runtime: static
+    rootDir: admin
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false
+      - key: VITE_FRONTEND_URL
+        sync: false
