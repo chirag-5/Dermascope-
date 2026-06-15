@@ -40,7 +40,7 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        sync: false
+        value: https://dermascope.onrender.com/api
       - key: VITE_GOOGLE_CLIENT_ID
         sync: false
       - key: VITE_ADMIN_URL
@@ -54,7 +54,7 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        sync: false
+        value: https://dermascope.onrender.com/api
       - key: VITE_GOOGLE_CLIENT_ID
         sync: false
       - key: VITE_FRONTEND_URL
